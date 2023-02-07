@@ -125,7 +125,7 @@ if confirm:
     vector = ['0']*14
     vector[ind] = '1'
     if not os.path.exists(path):
-        df1 = pd.DataFrame(columns=['text']+labels)
+        df1 = pd.DataFrame(columns=['','text']+labels)
         st.write(df1)
         df1.to_excel(path)
     st.write('add a line')
