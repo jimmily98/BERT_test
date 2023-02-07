@@ -85,10 +85,12 @@ model.config.label2id = label2id
 user_input = st.text_area("Enter sentence to classify :")
 button = st.button("Classify")
 values = st.checkbox("Show values")
-modify = st.button("Not the wanted answer?")
+st.sidebar.expander('')
+st.sidebar.subheader('Not the wanted answer?')
 side = ["Weather","Clock","Calendar","Map","Phone","Email","Calculator",\
     "Translator","Web search","Social media","Small talk","Message","Reminders","Music"]
-confirm  = st.button("confirm")
+choice = st.sidebar('',side)
+confirm  = st.sidebar.button("confirm")
 
 
 
