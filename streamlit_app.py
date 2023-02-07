@@ -130,8 +130,8 @@ if confirm:
         df1.to_excel(path)
     st.write('add a line')
     df1 = pd.read_excel(path)
-    st.write([str(df1.shape[0])+user_input+vector])
-    df1.loc[0] = [str(df1.shape[0])+user_input+vector] 
+    st.write([[str(df1.shape[0])]+user_input+vector])
+    df1.loc[0] = [[str(df1.shape[0])]+user_input+vector] 
     df1.to_excel(path)
         
 
