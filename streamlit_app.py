@@ -102,6 +102,7 @@ if user_input and button:
     output = torch.nn.Softmax(dim=1)(logits[0])
     output = output[0].tolist()
     result = labels[np.argmax(output)]
+    st.write(result)
 
     if values:
         y_pos = np.arange(len(labels))
