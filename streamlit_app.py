@@ -85,6 +85,10 @@ model.config.label2id = label2id
 user_input = st.text_area("Enter sentence to classify :")
 button = st.button("Classify")
 values = st.checkbox("Show values")
+modify = st.button("Not the wanted answer?")
+side = ["Weather","Clock","Calendar","Map","Phone","Email","Calculator",\
+    "Translator","Web search","Social media","Small talk","Message","Reminders","Music"]
+confirm  = st.button("confirm")
 
 
 
@@ -110,3 +114,10 @@ if user_input and button:
         # ax.bar_label(hbars, fmt='%.2f')
         ax.set_xlim(right=min(1,maxl+0.1))  # adjust xlim to fit labels
         st.pyplot(fig)
+    
+    if modify:
+        st.radio("Choose the right answer:",side)
+        answer = modify
+
+        
+
