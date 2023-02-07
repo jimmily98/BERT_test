@@ -11,6 +11,7 @@ from transformers.modeling_outputs import SequenceClassifierOutput
 import matplotlib.pyplot as plt
 import requests
 import io
+import os
 
 import streamlit as st
 
@@ -73,7 +74,7 @@ tokenizer,model = get_model()
 
 
 labels = ['Weather', 'Clock', 'Calendar', 'Map', 'Phone', 'Email', 'Calculator', 'Translator', 'Web search', 'Social media', 'Small talk', 'Message', 'Reminders', 'Music']
-
+path = "added_data.xlsx"
 id2label = {str(i):label for i, label in enumerate(labels)}
 label2id = {label:str(i) for i, label in enumerate(labels)}
 
@@ -118,9 +119,17 @@ if user_input and button:
         ax.set_xlim(right=min(1,maxl+0.1))  # adjust xlim to fit labels
         st.pyplot(fig)
     
-    if modify:
-        st.radio("Choose the right answer:",side)
-        answer = modify
+    if confirm:
+        ind = labels.index(choice)
+        vector = ['0']*14
+        vector[ind] = '1'
+        if not os.path.exists(path):
+            df1 = pd.DataFrame(rows = [],columns=['text']+labels)
+            df1.to_excel(path)
+        df1 = pd.read_excel(path)
+        df1.loc[0] = [df1.shape[0],user_input,vector] 
+        df1.to_excel(path)
+        
 
         
 
