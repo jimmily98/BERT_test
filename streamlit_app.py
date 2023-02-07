@@ -126,7 +126,7 @@ if confirm:
     vector[ind] = '1'
     if not os.path.exists(path):
         test = 'create document'
-        df1 = pd.DataFrame(rows = [],columns=['text']+labels)
+        df1 = pd.DataFrame(columns=['','text']+labels)
         df1.to_excel(path)
     test = 'add a line'
     df1 = pd.read_excel(path)
