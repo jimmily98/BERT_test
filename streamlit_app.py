@@ -119,19 +119,19 @@ if user_input and button:
         ax.set_xlim(right=min(1,maxl+0.1))  # adjust xlim to fit labels
         st.pyplot(fig)
     
-    if confirm:
-        test = "enter confirm"
-        ind = labels.index(choice)
-        vector = ['0']*14
-        vector[ind] = '1'
-        if not os.path.exists(path):
-            test = 'create document'
-            df1 = pd.DataFrame(rows = [],columns=['text']+labels)
-            df1.to_excel(path)
-        test = 'add a line'
-        df1 = pd.read_excel(path)
-        df1.loc[0] = [df1.shape[0],user_input,vector] 
+if confirm:
+    test = "enter confirm"
+    ind = labels.index(choice)
+    vector = ['0']*14
+    vector[ind] = '1'
+    if not os.path.exists(path):
+        test = 'create document'
+        df1 = pd.DataFrame(rows = [],columns=['text']+labels)
         df1.to_excel(path)
+    test = 'add a line'
+    df1 = pd.read_excel(path)
+    df1.loc[0] = [df1.shape[0],user_input,vector] 
+    df1.to_excel(path)
         
 
         
