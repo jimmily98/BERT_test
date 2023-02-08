@@ -15,6 +15,7 @@ import os
 import openpyxl
 
 import streamlit as st
+from gsheetsdb import connect
 
 class DistilBertForMultilabelSequenceClassification(DistilBertForSequenceClassification):
     def __init__(self, config):
@@ -61,8 +62,10 @@ class DistilBertForMultilabelSequenceClassification(DistilBertForSequenceClassif
             attentions=outputs.attentions)
 
 #Setup
-
 st.title("Classification : Virtual Assistant")
+
+# Create a connection object.
+conn = connect()
 
 @st.cache(allow_output_mutation = True)
 def get_model():
@@ -70,12 +73,19 @@ def get_model():
     model = DistilBertForMultilabelSequenceClassification.from_pretrained("Deopusi/virtual_assistant_classification",use_auth_token = "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",num_labels=14)
     return tokenizer,model
 
+def run_query(query):
+    rows = conn.execute(query, headers=1)
+    rows = rows.fetchall()
+    return rows
+
+sheet_url = st.secrets["public_gsheets_url"]
+rows = run_query(f'SELECT * FROM "{sheet_url}"')
 
 tokenizer,model = get_model()
 
 
 labels = ['Weather', 'Clock', 'Calendar', 'Map', 'Phone', 'Email', 'Calculator', 'Translator', 'Web search', 'Social media', 'Small talk', 'Message', 'Reminders', 'Music']
-path = "BdD1.xlsx"
+path = "Added.xlsx"
 
 id2label = {str(i):label for i, label in enumerate(labels)}
 label2id = {label:str(i) for i, label in enumerate(labels)}
@@ -93,6 +103,8 @@ st.sidebar.expander('')
 st.sidebar.subheader('Not your wanted answer?')
 choice = st.sidebar.selectbox('Choose your answer',['<select>']+side)
 confirm = st.sidebar.button('confirm')
+
+st.write(rows)
 
 if user_input and button:
     input = torch.tensor([tokenizer(user_input)["input_ids"]])
@@ -132,8 +144,8 @@ if confirm:
             df1.to_excel(path)
         
         book = openpyxl.load_workbook(path)
-        if not 'Sheet2' in book.sheetnames:
-            book.create_sheet('Sheet2')
+        if not 'Sheet1' in book.sheetnames:
+            book.create_sheet('Sheet1')
             book.save(path)
         
         writer = pd.ExcelWriter(path, engine = 'openpyxl', if_sheet_exists='overlay', mode = 'a')

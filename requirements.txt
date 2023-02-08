@@ -5,3 +5,4 @@ panda
 matplotlib
 requests
 openpyxl
+gsheetsdb==0.1.13.1
