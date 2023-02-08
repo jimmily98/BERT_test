@@ -12,6 +12,7 @@ import matplotlib.pyplot as plt
 import requests
 import io
 import os
+import openpyxl
 
 import streamlit as st
 
@@ -74,7 +75,8 @@ tokenizer,model = get_model()
 
 
 labels = ['Weather', 'Clock', 'Calendar', 'Map', 'Phone', 'Email', 'Calculator', 'Translator', 'Web search', 'Social media', 'Small talk', 'Message', 'Reminders', 'Music']
-path = "added_data.xlsx"
+path = "BdD1.xlsx"
+
 id2label = {str(i):label for i, label in enumerate(labels)}
 label2id = {label:str(i) for i, label in enumerate(labels)}
 
@@ -120,7 +122,6 @@ if user_input and button:
         st.pyplot(fig)
     
 if confirm:
-    st.write("enter confirm")
     ind = labels.index(choice)
     vector = ['0']*14
     vector[ind] = '1'
@@ -128,11 +129,16 @@ if confirm:
         df1 = pd.DataFrame(columns=['','text']+labels)
         st.write(df1)
         df1.to_excel(path)
-    st.write('add a line')
-    df1 = pd.read_excel(path)
-    st.write([str(df1.shape[0])]+[user_input]+vector)
+    
+    book = openpyxl.load_workbook(path)
+    if not 'Sheet2' in book.sheetnames:
+        book.create_sheet('Sheet2')
+    
+    writer = pd.ExcelWriter(path, engine = 'openpyxl', mode = 'a')
+    df1 = pd.read_excel(path,sheet_name="Sheet2")
     df1.append(pd.DataFrame(columns =['','text']+labels, data=[[str(df1.shape[0])]+[user_input]+vector]))
-    df1.to_excel(path)
+    df1.to_excel(writer,sheet_name='Sheet2')
+    writer.close()
         
 
         
