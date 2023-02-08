@@ -84,17 +84,12 @@ model.config.id2label = id2label
 model.config.label2id = label2id
 
 #Visibility
-if "Classify" not in st.session_state:
-    st.session_state.disabled = True
-
-st.write(st.session_state.disabled)
+st.session_state.disabled = True
+classified = False
 
 #Input
 user_input = st.text_area("Enter sentence to classify :")
 button = st.button("Classify")
-
-st.write(st.session_state.disabled)
-
 values = st.checkbox("Show values")
 side = ["Weather","Clock","Calendar","Map","Phone","Email","Calculator",\
     "Translator","Web search","Social media","Small talk","Message","Reminders","Music"]
@@ -109,7 +104,7 @@ if user_input and button:
     output = output[0].tolist()
     result = labels[np.argmax(output)]
     st.write(result)
-    st.session_state.disabled = False
+    classified = True
 
 
     if values:
@@ -127,6 +122,8 @@ if user_input and button:
         ax.set_xlim(right=min(1,maxl+0.1))  # adjust xlim to fit labels
         st.pyplot(fig)
 
+if classified:
+    st.session_state.disabled = False
 confirm  = st.sidebar.button("confirm",disabled=st.session_state.disabled)
 
 if confirm:
