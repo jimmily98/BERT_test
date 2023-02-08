@@ -125,18 +125,17 @@ if user_input and button:
         st.pyplot(fig)
 
 if classified:
+    st.write("Your choice has been recorded")
     ind = labels.index(choice)
     vector = ['0']*14
     vector[ind] = '1'
     if not os.path.exists(path):
-        test1=st.write('create a new file')
         df1 = pd.DataFrame(columns=['','text']+labels)
         st.write(df1)
         df1.to_excel(path)
     
     book = openpyxl.load_workbook(path)
     if not 'Sheet2' in book.sheetnames:
-        test2=st.write('create a new sheet')
         book.create_sheet('Sheet2')
         book.save(path)
     
