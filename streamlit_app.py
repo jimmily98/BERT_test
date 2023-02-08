@@ -94,8 +94,8 @@ side = ["Weather","Clock","Calendar","Map","Phone","Email","Calculator",\
     "Translator","Web search","Social media","Small talk","Message","Reminders","Music"]
 choice = st.sidebar.radio('Choose your answer',side)
 confirm  = st.sidebar.button("confirm")
-test = st.write('')
-
+test1 = st.write('test1')
+test2 = st.write('test2')
 
 
 if user_input and button:
@@ -126,13 +126,14 @@ if confirm:
     vector = ['0']*14
     vector[ind] = '1'
     if not os.path.exists(path):
+        test1=st.write('create a new file')
         df1 = pd.DataFrame(columns=['','text']+labels)
         st.write(df1)
         df1.to_excel(path)
     
     book = openpyxl.load_workbook(path)
     if not 'Sheet2' in book.sheetnames:
-        st.write('create a new sheet')
+        test2=st.write('create a new sheet')
         book.create_sheet('Sheet2')
     
     writer = pd.ExcelWriter(path, engine = 'openpyxl', mode = 'a')
