@@ -90,6 +90,11 @@ button = st.button("Classify")
 values = st.checkbox("Show values")
 side = ["Weather","Clock","Calendar","Map","Phone","Email","Calculator",\
     "Translator","Web search","Social media","Small talk","Message","Reminders","Music"]
+st.sidebar.expander('')
+st.sidebar.subheader('Not the wanted answer?')
+choice = st.sidebar.radio('Choose your answer',side)
+confirm  = st.sidebar.button("confirm",disabled=True)
+
 
 
 if user_input and button:
@@ -99,10 +104,8 @@ if user_input and button:
     output = output[0].tolist()
     result = labels[np.argmax(output)]
     st.write(result)
-    st.sidebar.expander('')
-    st.sidebar.subheader('Not the wanted answer?')
-    choice = st.sidebar.radio('Choose your answer',side,label_visibility="collapsed")
-    confirm  = st.sidebar.button("confirm")
+    st.session_state.disabled = False
+
 
     if values:
         y_pos = np.arange(len(labels))
