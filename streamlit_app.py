@@ -105,7 +105,7 @@ if user_input and button:
 
     st.sidebar.expander('')
     st.sidebar.subheader('Not your wanted answer?')
-    choice = st.sidebar.radio('Choose your answer',side)
+    choice = st.sidebar.selectbox('Choose your answer',side)
     # confirm = st.sidebar.button('confirm')
 
 
