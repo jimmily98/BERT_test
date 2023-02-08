@@ -84,8 +84,7 @@ model.config.id2label = id2label
 model.config.label2id = label2id
 
 #Visibility
-if st.session_state.get("Classify", False):
-    st.session_state.disabled = False
+st.session_state.disabled = False
 
 #Input
 user_input = st.text_area("Enter sentence to classify :")
@@ -96,9 +95,6 @@ side = ["Weather","Clock","Calendar","Map","Phone","Email","Calculator",\
 st.sidebar.expander('')
 st.sidebar.subheader('Not the wanted answer?')
 choice = st.sidebar.radio('Choose your answer',side)
-confirm  = st.sidebar.button("confirm",disabled=True)
-
-
 
 if user_input and button:
     input = torch.tensor([tokenizer(user_input)["input_ids"]])
@@ -107,7 +103,7 @@ if user_input and button:
     output = output[0].tolist()
     result = labels[np.argmax(output)]
     st.write(result)
-
+    st.session_state.disabled = False
 
 
     if values:
@@ -124,7 +120,9 @@ if user_input and button:
         # ax.bar_label(hbars, fmt='%.2f')
         ax.set_xlim(right=min(1,maxl+0.1))  # adjust xlim to fit labels
         st.pyplot(fig)
-    
+
+confirm  = st.sidebar.button("confirm",disabled=st.session_state.disabled)
+
 if confirm:
     ind = labels.index(choice)
     vector = ['0']*14
