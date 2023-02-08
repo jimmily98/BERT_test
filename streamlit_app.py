@@ -136,7 +136,7 @@ if confirm:
         vector[ind] = '1'
         sheet_url = st.secrets["public_gsheets_url"]
         rows = run_query(f'SELECT * FROM "{sheet_url}"')
-        rows += [str(rows.shape[0])]+[user_input]+vector
+        rows += [str(len(rows))]+[user_input]+vector
         st.write(rows)
         # if not os.path.exists(path):
         #     df1 = pd.DataFrame(columns=['','text']+labels)
