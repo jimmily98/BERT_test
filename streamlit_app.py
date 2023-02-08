@@ -88,8 +88,6 @@ model.config.label2id = label2id
 user_input = st.text_area("Enter sentence to classify :")
 button = st.button("Classify")
 values = st.checkbox("Show values")
-st.sidebar.expander('')
-st.sidebar.subheader('Not the wanted answer?')
 side = ["Weather","Clock","Calendar","Map","Phone","Email","Calculator",\
     "Translator","Web search","Social media","Small talk","Message","Reminders","Music"]
 
@@ -101,6 +99,8 @@ if user_input and button:
     output = output[0].tolist()
     result = labels[np.argmax(output)]
     st.write(result)
+    st.sidebar.expander('')
+    st.sidebar.subheader('Not the wanted answer?')
     choice = st.sidebar.radio('Choose your answer',side,label_visibility="collapsed")
     confirm  = st.sidebar.button("confirm")
 
