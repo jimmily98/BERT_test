@@ -78,8 +78,6 @@ def run_query(query):
     rows = rows.fetchall()
     return rows
 
-sheet_url = st.secrets["public_gsheets_url"]
-rows = run_query(f'SELECT * FROM "{sheet_url}"')
 
 tokenizer,model = get_model()
 
@@ -138,22 +136,26 @@ if confirm:
         ind = labels.index(choice)
         vector = ['0']*14
         vector[ind] = '1'
-        if not os.path.exists(path):
-            df1 = pd.DataFrame(columns=['','text']+labels)
-            st.write(df1)
-            df1.to_excel(path)
+        sheet_url = st.secrets["public_gsheets_url"]
+        rows = run_query(f'SELECT * FROM "{sheet_url}"')
+        rows += [str(rows.shape[0])]+[user_input]+vector
+        st.write(rows)
+        # if not os.path.exists(path):
+        #     df1 = pd.DataFrame(columns=['','text']+labels)
+        #     st.write(df1)
+        #     df1.to_excel(path)
         
-        book = openpyxl.load_workbook(path)
-        if not 'Sheet1' in book.sheetnames:
-            book.create_sheet('Sheet1')
-            book.save(path)
+        # book = openpyxl.load_workbook(path)
+        # if not 'Sheet1' in book.sheetnames:
+        #     book.create_sheet('Sheet1')
+        #     book.save(path)
         
-        writer = pd.ExcelWriter(path, engine = 'openpyxl', if_sheet_exists='overlay', mode = 'a')
-        df1 = pd.read_excel(path,sheet_name="Sheet2")
-        df1.append(pd.DataFrame(columns =['','text']+labels, data=[[str(df1.shape[0])]+[user_input]+vector]))
-        df1.to_excel(writer,sheet_name='Sheet2')
-        writer.close()
-        st.write("Your choice has been recorded")
+        # writer = pd.ExcelWriter(path, engine = 'openpyxl', if_sheet_exists='overlay', mode = 'a')
+        # df1 = pd.read_excel(path,sheet_name="Sheet2")
+        # df1.append(pd.DataFrame(columns =['','text']+labels, data=[[str(df1.shape[0])]+[user_input]+vector]))
+        # df1.to_excel(writer,sheet_name='Sheet2')
+        # writer.close()
+        # st.write("Your choice has been recorded")
         
 
         
