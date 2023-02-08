@@ -94,8 +94,6 @@ side = ["Weather","Clock","Calendar","Map","Phone","Email","Calculator",\
     "Translator","Web search","Social media","Small talk","Message","Reminders","Music"]
 choice = st.sidebar.radio('Choose your answer',side)
 confirm  = st.sidebar.button("confirm")
-test1 = st.write('test1')
-test2 = st.write('test2')
 
 
 if user_input and button:
