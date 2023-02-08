@@ -85,11 +85,16 @@ model.config.label2id = label2id
 
 #Visibility
 if "Classify" not in st.session_state:
-    st.session_state.disabled = False
+    st.session_state.disabled = True
+
+st.write(st.session_state.disabled)
 
 #Input
 user_input = st.text_area("Enter sentence to classify :")
 button = st.button("Classify")
+
+st.write(st.session_state.disabled)
+
 values = st.checkbox("Show values")
 side = ["Weather","Clock","Calendar","Map","Phone","Email","Calculator",\
     "Translator","Web search","Social media","Small talk","Message","Reminders","Music"]
