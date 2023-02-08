@@ -84,7 +84,6 @@ model.config.id2label = id2label
 model.config.label2id = label2id
 
 #Visibility
-st.session_state.disabled = True
 classified = False
 
 #Input
@@ -93,9 +92,7 @@ button = st.button("Classify")
 values = st.checkbox("Show values")
 side = ["Weather","Clock","Calendar","Map","Phone","Email","Calculator",\
     "Translator","Web search","Social media","Small talk","Message","Reminders","Music"]
-st.sidebar.expander('')
-st.sidebar.subheader('Not the wanted answer?')
-choice = st.sidebar.radio('Choose your answer',side)
+
 
 if user_input and button:
     input = torch.tensor([tokenizer(user_input)["input_ids"]])
@@ -105,6 +102,10 @@ if user_input and button:
     result = labels[np.argmax(output)]
     st.write(result)
     classified = True
+    st.sidebar.expander('')
+    st.sidebar.subheader('Not the wanted answer?')
+    choice = st.sidebar.radio('Choose your answer',side)
+    confirm = st.button('confirm')
 
 
     if values:
@@ -122,11 +123,7 @@ if user_input and button:
         ax.set_xlim(right=min(1,maxl+0.1))  # adjust xlim to fit labels
         st.pyplot(fig)
 
-if classified:
-    st.session_state.disabled = False
-confirm  = st.sidebar.button("confirm",disabled=st.session_state.disabled)
-
-if confirm:
+if classified and confirm:
     ind = labels.index(choice)
     vector = ['0']*14
     vector[ind] = '1'
