@@ -83,8 +83,9 @@ label2id = {label:str(i) for i, label in enumerate(labels)}
 model.config.id2label = id2label
 model.config.label2id = label2id
 
-#Input
 
+
+#Input
 user_input = st.text_area("Enter sentence to classify :")
 button = st.button("Classify")
 values = st.checkbox("Show values")
@@ -93,6 +94,11 @@ side = ["Weather","Clock","Calendar","Map","Phone","Email","Calculator",\
 st.sidebar.expander('')
 st.sidebar.subheader('Not the wanted answer?')
 choice = st.sidebar.radio('Choose your answer',side)
+
+#Visibility
+if button:
+    st.session_state.disabled = False
+
 confirm  = st.sidebar.button("confirm",disabled=True)
 
 
