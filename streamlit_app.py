@@ -133,6 +133,7 @@ if confirm:
     if not 'Sheet2' in book.sheetnames:
         test2=st.write('create a new sheet')
         book.create_sheet('Sheet2')
+        book.save(path)
     
     writer = pd.ExcelWriter(path, engine = 'openpyxl', mode = 'a')
     df1 = pd.read_excel(path,sheet_name="Sheet2")
