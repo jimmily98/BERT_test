@@ -102,10 +102,11 @@ if user_input and button:
     result = labels[np.argmax(output)]
     st.write(result)
     classified = True
+
     st.sidebar.expander('')
-    st.sidebar.subheader('Not the wanted answer?')
+    st.sidebar.subheader('Not your wanted answer?')
     choice = st.sidebar.radio('Choose your answer',side)
-    confirm = st.button('confirm')
+    confirm = st.sidebar.button('confirm')
 
 
     if values:
