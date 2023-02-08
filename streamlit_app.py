@@ -132,6 +132,7 @@ if confirm:
     
     book = openpyxl.load_workbook(path)
     if not 'Sheet2' in book.sheetnames:
+        st.write('create a new sheet')
         book.create_sheet('Sheet2')
     
     writer = pd.ExcelWriter(path, engine = 'openpyxl', mode = 'a')
