@@ -92,8 +92,6 @@ st.sidebar.expander('')
 st.sidebar.subheader('Not the wanted answer?')
 side = ["Weather","Clock","Calendar","Map","Phone","Email","Calculator",\
     "Translator","Web search","Social media","Small talk","Message","Reminders","Music"]
-choice = st.sidebar.radio('Choose your answer',side)
-confirm  = st.sidebar.button("confirm")
 
 
 if user_input and button:
@@ -103,6 +101,8 @@ if user_input and button:
     output = output[0].tolist()
     result = labels[np.argmax(output)]
     st.write(result)
+    choice = st.sidebar.radio('Choose your answer',side,label_visibility="collapsed")
+    confirm  = st.sidebar.button("confirm")
 
     if values:
         y_pos = np.arange(len(labels))
