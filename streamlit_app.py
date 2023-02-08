@@ -105,7 +105,7 @@ if user_input and button:
 
     st.sidebar.expander('')
     st.sidebar.subheader('Not your wanted answer?')
-    choice = st.sidebar.selectbox('Choose your answer',side)
+    choice = st.sidebar.selectbox('Choose your answer',['<select>']+side)
     # confirm = st.sidebar.button('confirm')
 
 
@@ -124,7 +124,7 @@ if user_input and button:
         ax.set_xlim(right=min(1,maxl+0.1))  # adjust xlim to fit labels
         st.pyplot(fig)
 
-if classified:
+if classified and choice != '<select>':
     st.write("Your choice has been recorded")
     ind = labels.index(choice)
     vector = ['0']*14
