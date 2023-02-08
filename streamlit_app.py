@@ -83,16 +83,16 @@ label2id = {label:str(i) for i, label in enumerate(labels)}
 model.config.id2label = id2label
 model.config.label2id = label2id
 
-#Visibility
-classified = False
-
 #Input
 user_input = st.text_area("Enter sentence to classify :")
 button = st.button("Classify")
 values = st.checkbox("Show values")
 side = ["Weather","Clock","Calendar","Map","Phone","Email","Calculator",\
     "Translator","Web search","Social media","Small talk","Message","Reminders","Music"]
-
+st.sidebar.expander('')
+st.sidebar.subheader('Not your wanted answer?')
+choice = st.sidebar.selectbox('Choose your answer',['<select>']+side)
+confirm = st.sidebar.button('confirm')
 
 if user_input and button:
     input = torch.tensor([tokenizer(user_input)["input_ids"]])
@@ -101,12 +101,6 @@ if user_input and button:
     output = output[0].tolist()
     result = labels[np.argmax(output)]
     st.write(result)
-    classified = True
-
-    st.sidebar.expander('')
-    st.sidebar.subheader('Not your wanted answer?')
-    choice = st.sidebar.selectbox('Choose your answer',['<select>']+side)
-    # confirm = st.sidebar.button('confirm')
 
 
     if values:
@@ -124,26 +118,30 @@ if user_input and button:
         ax.set_xlim(right=min(1,maxl+0.1))  # adjust xlim to fit labels
         st.pyplot(fig)
 
-if classified and choice != '<select>':
-    st.write("Your choice has been recorded")
-    ind = labels.index(choice)
-    vector = ['0']*14
-    vector[ind] = '1'
-    if not os.path.exists(path):
-        df1 = pd.DataFrame(columns=['','text']+labels)
-        st.write(df1)
-        df1.to_excel(path)
-    
-    book = openpyxl.load_workbook(path)
-    if not 'Sheet2' in book.sheetnames:
-        book.create_sheet('Sheet2')
-        book.save(path)
-    
-    writer = pd.ExcelWriter(path, engine = 'openpyxl', if_sheet_exists='overlay', mode = 'a')
-    df1 = pd.read_excel(path,sheet_name="Sheet2")
-    df1.append(pd.DataFrame(columns =['','text']+labels, data=[[str(df1.shape[0])]+[user_input]+vector]))
-    df1.to_excel(writer,sheet_name='Sheet2')
-    writer.close()
+if confirm:
+    if user_input=="":
+        st.write('Need an input')
+
+    else:
+        ind = labels.index(choice)
+        vector = ['0']*14
+        vector[ind] = '1'
+        if not os.path.exists(path):
+            df1 = pd.DataFrame(columns=['','text']+labels)
+            st.write(df1)
+            df1.to_excel(path)
+        
+        book = openpyxl.load_workbook(path)
+        if not 'Sheet2' in book.sheetnames:
+            book.create_sheet('Sheet2')
+            book.save(path)
+        
+        writer = pd.ExcelWriter(path, engine = 'openpyxl', if_sheet_exists='overlay', mode = 'a')
+        df1 = pd.read_excel(path,sheet_name="Sheet2")
+        df1.append(pd.DataFrame(columns =['','text']+labels, data=[[str(df1.shape[0])]+[user_input]+vector]))
+        df1.to_excel(writer,sheet_name='Sheet2')
+        writer.close()
+        st.write("Your choice has been recorded")
         
 
         
