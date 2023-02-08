@@ -102,8 +102,6 @@ st.sidebar.subheader('Not your wanted answer?')
 choice = st.sidebar.selectbox('Choose your answer',['<select>']+side)
 confirm = st.sidebar.button('confirm')
 
-st.write(rows)
-
 if user_input and button:
     input = torch.tensor([tokenizer(user_input)["input_ids"]])
     logits = model(input)[:2]
