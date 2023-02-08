@@ -84,7 +84,8 @@ model.config.id2label = id2label
 model.config.label2id = label2id
 
 #Visibility
-st.session_state.disabled = True
+if "Classify" not in st.session_state:
+    st.session_state.disabled = True
 
 #Input
 user_input = st.text_area("Enter sentence to classify :")
