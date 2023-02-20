@@ -15,7 +15,7 @@ import os
 import openpyxl
 
 import streamlit as st
-from gsheetsdb import connect
+import mysql.connector
 
 class DistilBertForMultilabelSequenceClassification(DistilBertForSequenceClassification):
     def __init__(self, config):
@@ -65,7 +65,16 @@ class DistilBertForMultilabelSequenceClassification(DistilBertForSequenceClassif
 st.title("Classification : Virtual Assistant")
 
 # Create a connection object.
-conn = connect()
+def init_connection():
+    return mysql.connector.connect(**st.secrets["mysql"])
+conn = init_connection()
+
+@st.cache_data(ttl=600)
+def run_query(query):
+    with conn.cursor() as cur:
+        cur.execute(query)
+        return cur.fetchall()
+
 
 @st.cache(allow_output_mutation = True)
 def get_model():
@@ -134,9 +143,8 @@ if confirm:
         ind = labels.index(choice)
         vector = ['0']*14
         vector[ind] = '1'
-        sheet_url = st.secrets["public_gsheets_url"]
-        rows = run_query(f'SELECT * FROM "{sheet_url}"')
-        rows += [str(len(rows))]+[user_input]+vector
+
+        rows = run_query("SELECT * from added_texts;")
         st.write(rows)
         # if not os.path.exists(path):
         #     df1 = pd.DataFrame(columns=['','text']+labels)

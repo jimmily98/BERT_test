@@ -5,4 +5,4 @@ panda
 matplotlib
 requests
 openpyxl
-gsheetsdb==0.1.13.1
+mysql-connector-python==8.0.32
