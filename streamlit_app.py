@@ -77,7 +77,7 @@ st.title("Classification : Virtual Assistant")
 #         return cur.fetchall()
 
 # connect to database
-db = pymysql.connect(host='127.0.0.1',user='guest',passwd='guest',port = '3306',db='bdd2')
+db = pymysql.connect(host='127.0.0.1',user='guest',passwd='guest',port = 3306,db='bdd2')
 cur = db.cursor()
 
 @st.cache(allow_output_mutation = True)
