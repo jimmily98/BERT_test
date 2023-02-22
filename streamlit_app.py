@@ -13,6 +13,7 @@ import requests
 import io
 import os
 import openpyxl
+import pymysql
 
 import streamlit as st
 import mysql.connector
@@ -65,16 +66,19 @@ class DistilBertForMultilabelSequenceClassification(DistilBertForSequenceClassif
 st.title("Classification : Virtual Assistant")
 
 # Create a connection object.
-def init_connection():
-    return mysql.connector.connect(**st.secrets["mysql"])
-conn = init_connection()
+# def init_connection():
+#     return mysql.connector.connect(**st.secrets["mysql"])
+# conn = init_connection()
 
-@st.cache_data(ttl=600)
-def run_query(query):
-    with conn.cursor() as cur:
-        cur.execute(query)
-        return cur.fetchall()
+# @st.cache_data(ttl=600)
+# def run_query(query):
+#     with conn.cursor() as cur:
+#         cur.execute(query)
+#         return cur.fetchall()
 
+# connect to database
+db = pymysql.connect(host='127.0.0.1',user='guest',passwd='guest',port = '3306',db='bdd2')
+cur = db.cursor()
 
 @st.cache(allow_output_mutation = True)
 def get_model():
@@ -139,8 +143,9 @@ if confirm:
         vector = ['0']*14
         vector[ind] = '1'
 
-        rows = run_query("SELECT * from added_texts;")
-        st.write(rows)
+        sql = "SELECT * from added_texts;"
+        cur.execute(sql)
+        st.write(cur.description)
         # if not os.path.exists(path):
         #     df1 = pd.DataFrame(columns=['','text']+labels)
         #     st.write(df1)

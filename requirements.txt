@@ -6,3 +6,4 @@ matplotlib
 requests
 openpyxl
 mysql-connector-python==8.0.32
+pymysql
