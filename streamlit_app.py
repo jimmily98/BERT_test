@@ -82,11 +82,6 @@ def get_model():
     model = DistilBertForMultilabelSequenceClassification.from_pretrained("Deopusi/virtual_assistant_classification",use_auth_token = "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",num_labels=14)
     return tokenizer,model
 
-def run_query(query):
-    rows = conn.execute(query, headers=1)
-    rows = rows.fetchall()
-    return rows
-
 
 tokenizer,model = get_model()
 
